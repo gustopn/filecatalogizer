@@ -1,5 +1,6 @@
 import json
 import bz2
+import os
 
 class Configurator():
 
@@ -10,17 +11,18 @@ class Configurator():
   def __init__(self, configFileDirPath):
     self.__configFilePath = configFileDirPath + "/config.json.bz2"
     if os.path.isfile(self.__configFilePath):
-      configDataCompressed = open(self.__configFilePath, "r").read()
+      configDataCompressed = open(self.__configFilePath, "rb").read()
       configDataJSON = bz2.decompress(configDataCompressed)
       self.__config = json.loads(configDataJSON)
     else:
       if not self.__doConfigure():
         return
       configDataJSON = json.dumps(self.__config, indent=2)
-      configDataCompressed = bz2.compress(configDataJSON)
+      configDataCompressed = bz2.compress(configDataJSON.encode("UTF-8"))
       if not os.path.exists(self.__configFilePath):
-        configFileHandle = open(self.__configFilePath, "w")
+        configFileHandle = open(self.__configFilePath, "wb")
         configFileHandle.write(configDataCompressed)
+        configFileHandle.close()
 
   def getConfigFilePath(self):
     return self.__configFilePath
@@ -36,4 +38,4 @@ class Configurator():
     configDict["DBMS"]["password"] = ""
     configDict["DBMS"]["hostname"] = ""
     self.__config = configDict
-    return False
+    return True
