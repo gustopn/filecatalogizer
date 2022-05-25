@@ -32,10 +32,14 @@ class Configurator():
       return False
 
   def __doConfigure(self):
+    print("DBMS configuration:")
+    dbmsusername = input("username: ")
+    dbmspassword = input("password: ")
+    dbmshostname = input("hostname: ")
     configDict = {}
     configDict["DBMS"] = {}
-    configDict["DBMS"]["username"] = ""
-    configDict["DBMS"]["password"] = ""
-    configDict["DBMS"]["hostname"] = ""
+    configDict["DBMS"]["username"] = dbmsusername
+    configDict["DBMS"]["password"] = dbmspassword
+    configDict["DBMS"]["hostname"] = dbmshostname
     self.__config = configDict
     return True
