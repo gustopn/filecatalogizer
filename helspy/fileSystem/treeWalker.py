@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 class TreeWalker():
   
@@ -38,23 +39,20 @@ class TreeWalker():
     fesLinkN = fileEntryStat.st_nlink
     fesSize = fileEntryStat.st_size
     feFileName = currentDirEntry.name
-    feHasExtension = False
     feFileNameList = feFileName.split(".")
     feFileNameExtension = ""
     if len(feFileNameList) > 1:
       feFileNameExtension = feFileNameList.pop()
-      feHasExtension = True
     return {
-        "atime": fesAtime,
-        "ctime": fesCtime,
-        "mtime": fesMtime,
+        "atime": datetime.fromtimestamp(fesAtime),
+        "ctime": datetime.fromtimestamp(fesCtime),
+        "mtime": datetime.fromtimestamp(fesMtime),
         "inode": fesInode,
         "mode": fesMode,
         "links": fesLinkN,
         "size": fesSize,
         "name": feFileName,
         "path": currentDirEntry.path,
-        "hasExtension": feHasExtension,
         "filenameExtension": feFileNameExtension
     }
     
