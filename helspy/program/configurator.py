@@ -52,8 +52,10 @@ class Configurator():
     configDict = {}
     configDict["DBMS"] = {}
     configDict["DBMS"]["username"] = dbmsusername
-    configDict["DBMS"]["password"] = dbmspassword
-    configDict["DBMS"]["hostname"] = dbmshostname
+    if len(dbmspassword) > 0:
+      configDict["DBMS"]["password"] = dbmspassword
+    if len(dbmshostname) > 0:
+      configDict["DBMS"]["hostname"] = dbmshostname
     configDict["DBMS"]["database"] = dbmsdatabase
 
     self.__config = configDict
