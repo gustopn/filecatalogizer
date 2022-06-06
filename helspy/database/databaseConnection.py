@@ -75,22 +75,20 @@ class DatabaseConnection():
         ) """)
 
   def __getRunID(self):
-    runId = None
-    with self.__connection:
-      with self.__connection.cursor() as cursor:
-        cursor.execute("""
-        INSERT INTO filecatalogizer.run_t (
-          timestamp )
-        VALUES ( %(timestamp)s )
-        """, self.__runDict )
-        cursor.execute(
-          "SELECT currval( %s )",
-          ( "filecatalogizer.run_t_id_seq", )
-        )
-        runId = cursor.fetchone()[0]
-    if not runId is None:
-      return runId
-    return None
+    if self.__runID is None:
+      with self.__connection:
+        with self.__connection.cursor() as cursor:
+          cursor.execute("""
+          INSERT INTO filecatalogizer.run_t (
+            timestamp )
+          VALUES ( %(timestamp)s )
+          """, self.__runDict )
+          cursor.execute(
+            "SELECT currval( %s )",
+            ( "filecatalogizer.run_t_id_seq", )
+          )
+          self.__runID = cursor.fetchone()[0]
+    return self.__runID
 
   def __getFsID(self):
     resultList = []
@@ -126,18 +124,20 @@ class DatabaseConnection():
           valueDict = objectInstance.copy()
           valueDict["runid"] = self.__getRunID()
           valueDict["fsid"] = self.__getFsID()
-          print(valueDict)
-          cursor.execute("""
+          sqlStatement = """
           INSERT INTO filecatalogizer.file_t (
             name, path, fn_ext, size,
             links, mode, inode,
             atime, ctime, mtime,
             run_id, fs_id )
           VALUES (
-            %(name)s, %(path)s, %(filenameExtension)s, %(size)s,
+            %(name)s, %(path)s, 
+            %(filenameExtension)s, %(size)s,
             %(links)s, %(mode)s, %(inode)s,
             %(atime)s, %(ctime)s, %(mtime)s,
-            %(runid), %(fsid)s
+            %(runid)s, %(fsid)s
           )
-          """, valueDict )
+          """
+          print(cursor.mogrify(sqlStatement, valueDict ).decode("UTF-8"))
+          cursor.execute(sqlStatement, valueDict )
 
