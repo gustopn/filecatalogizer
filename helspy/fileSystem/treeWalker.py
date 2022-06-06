@@ -19,6 +19,8 @@ class TreeWalker():
       if currentDirEntryInstance.is_symlink():
         continue
       if currentDirEntryInstance.is_dir():
+        if not os.access(currentDirEntryInstance.path, os.X_OK):
+          continue
         if os.path.ismount(currentDirEntryInstance.path):
           continue
         filesList.extend(self.__walkDir(currentDirEntryInstance.path))
