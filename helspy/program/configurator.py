@@ -1,15 +1,16 @@
 import json
 import bz2
 import os
+import socket
 
 class Configurator():
 
-  def __init__(self, configFileDirPath):
-    self.__configFilePath = None
+  def __init__(self, runtimeVars):
+    self.__configFilePath = runtimeVars["configfileDirPath"] + "/config.json.bz2"
     self.__hasConfigFile = False
     self.__config = None
+    self.__runtimeVars = runtimeVars
 
-    self.__configFilePath = configFileDirPath + "/config.json.bz2"
     if os.path.isfile(self.__configFilePath):
       configDataCompressed = open(self.__configFilePath, "rb").read()
       configDataJSON = bz2.decompress(configDataCompressed)
@@ -57,10 +58,13 @@ class Configurator():
     if len(dbmshostname) > 0:
       configDict["DBMS"]["hostname"] = dbmshostname
     configDict["DBMS"]["database"] = dbmsdatabase
+    configDict["hostname"] = socket.gethostname()
 
     self.__config = configDict
     return True
 
-  def getDBMSConfig(self):
-    return self.__config["DBMS"]
+  def getConfig(self):
+    config = self.__config.copy()
+    config.update(self.__runtimeVars)
+    return config
 

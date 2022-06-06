@@ -1,5 +1,6 @@
 import os
 import json
+import psutil
 
 class WorkDirVerifier():
 
@@ -43,4 +44,12 @@ class WorkDirVerifier():
     if len(self.__verificationErrors) > 0:
       return True
     return False
+
+  def getFilesystemOfWorkDir(self):
+    if self.__workDirPath is None:
+      return None
+    for diskPartitionInstance in psutil.disk_partitions():
+      if self.__workDirPath == diskPartitionInstance.mountpoint:
+        return diskPartitionInstance.fstype
+    return None
 
