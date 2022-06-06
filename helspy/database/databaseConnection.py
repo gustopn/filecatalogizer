@@ -73,6 +73,20 @@ class DatabaseConnection():
           filesystem VARCHAR(16) NOT NULL,
           UNIQUE( mountpoint, hostname )
         ) """)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS filecatalogizer.file_t ( 
+          id BIGSERIAL PRIMARY KEY,
+          name VARCHAR(255) NOT NULL, path TEXT NOT NULL,
+          fn_ext VARCHAR(16), size BIGINT NOT NULL,
+          links INT NOT NULL, mode VARCHAR(8) NOT NULL,
+          inode BIGINT NOT NULL,
+          atime TIMESTAMP NOT NULL, ctime TIMESTAMP NOT NULL,
+          mtime TIMESTAMP NOT NULL,
+          run_id BIGINT NOT NULL REFERENCES filecatalogizer.run_t (id),
+          fs_id INT NOT NULL REFERENCES filecatalogizer.fs_t (id),
+          UNIQUE(inode, fs_id, path, run_id),
+          UNIQUE(path, run_id)
+        ) """)
 
   def __getRunID(self):
     if self.__runID is None:
@@ -138,6 +152,6 @@ class DatabaseConnection():
             %(runid)s, %(fsid)s
           )
           """
-          print(cursor.mogrify(sqlStatement, valueDict ).decode("UTF-8"))
+          # print(cursor.mogrify(sqlStatement, valueDict ).decode("UTF-8"))
           cursor.execute(sqlStatement, valueDict )
 

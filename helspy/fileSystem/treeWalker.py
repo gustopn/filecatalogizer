@@ -46,8 +46,8 @@ class TreeWalker():
     fesSize = fileEntryStat.st_size
     feFileName = currentDirEntry.name
     feFileNameList = feFileName.split(".")
-    feFileNameExtension = ""
-    if len(feFileNameList) > 1:
+    feFileNameExtension = None
+    if len(feFileNameList) > 1 and len(feFileNameList[-1]) < 16:
       feFileNameExtension = feFileNameList.pop()
     return {
         "atime": datetime.fromtimestamp(fesAtime),
