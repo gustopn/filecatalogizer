@@ -37,6 +37,13 @@ class TreeWalker():
     fesMode = oct(fileEntryStat.st_mode)
     fesLinkN = fileEntryStat.st_nlink
     fesSize = fileEntryStat.st_size
+    feFileName = currentDirEntry.name
+    feHasExtension = False
+    feFileNameList = feFileName.split(".")
+    feFileNameExtension = ""
+    if len(feFileNameList) > 1:
+      feFileNameExtension = feFileNameList.pop()
+      feHasExtension = True
     return {
         "atime": fesAtime,
         "ctime": fesCtime,
@@ -45,7 +52,9 @@ class TreeWalker():
         "mode": fesMode,
         "links": fesLinkN,
         "size": fesSize,
-        "name": currentDirEntry.name,
-        "path": currentDirEntry.path 
+        "name": feFileName,
+        "path": currentDirEntry.path,
+        "hasExtension": feHasExtension,
+        "filenameExtension": feFileNameExtension
     }
     
