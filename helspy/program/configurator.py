@@ -42,10 +42,11 @@ class Configurator():
     dbmsusername = input("username: ")
     dbmspassword = input("password: ")
     dbmshostname = input("hostname: ")
+    dbmsdatabase = input("database: ")
 
-    if ( len(dbmsusername) == 0
-        or len(dbmspassword) == 0
-        or len(dbmshostname) == 0 ):
+    if len(dbmsusername) < 1:
+      return False
+    if len(dbmsdatabase) < 1:
       return False
 
     configDict = {}
@@ -53,6 +54,7 @@ class Configurator():
     configDict["DBMS"]["username"] = dbmsusername
     configDict["DBMS"]["password"] = dbmspassword
     configDict["DBMS"]["hostname"] = dbmshostname
+    configDict["DBMS"]["database"] = dbmsdatabase
 
     self.__config = configDict
     return True
