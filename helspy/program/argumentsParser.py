@@ -5,12 +5,12 @@ import os
 
 class ArgumentsParser():
 
-  __progFilePath = None
-  __progCmdLineArgs = None
-  __progCmdLineArgsListSize = 0
-  __isVerbose = False
-
   def __init__(self):
+    self.__progFilePath = None
+    self.__progCmdLineArgs = None
+    self.__progCmdLineArgsListSize = 0
+    self.__isVerbose = False
+
     if len(sys.argv) < 2:
       return
     self.__progFilePath = sys.argv[0]

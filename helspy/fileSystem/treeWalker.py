@@ -55,4 +55,4 @@ class TreeWalker():
         "path": currentDirEntry.path,
         "filenameExtension": feFileNameExtension
     }
-    
+
