@@ -3,11 +3,11 @@ import json
 
 class WorkDirVerifier():
 
-  __workDirPath = None
-  __isVerified = False
-  __verificationErrors = []
-
   def __init__(self, workDirPath):
+    self.__workDirPath = None
+    self.__isVerified = False
+    self.__verificationErrors = []
+
     workDirPath = os.path.abspath(workDirPath)
     if type(workDirPath) is not str:
       self.__verificationErrors.append( (workDirPath, "variable is not a string") )

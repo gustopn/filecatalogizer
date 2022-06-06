@@ -4,11 +4,11 @@ import os
 
 class Configurator():
 
-  __configFilePath = None
-  __hasConfigFile = False
-  __config = None
-
   def __init__(self, configFileDirPath):
+    self.__configFilePath = None
+    self.__hasConfigFile = False
+    self.__config = None
+
     self.__configFilePath = configFileDirPath + "/config.json.bz2"
     if os.path.isfile(self.__configFilePath):
       configDataCompressed = open(self.__configFilePath, "rb").read()

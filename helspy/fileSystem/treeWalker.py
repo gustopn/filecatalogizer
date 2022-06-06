@@ -3,10 +3,8 @@ from datetime import datetime
 
 class TreeWalker():
   
-  __workDir = None
-  __filesList = []
-
   def __init__(self, workDir):
+    self.__filesList = []
     self.__workDir = workDir
 
   def doWalk(self):
