@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 class TreeWalker():
-  
+
   def __init__(self, workDir):
     self.__filesList = []
     self.__workDir = workDir
@@ -34,7 +34,7 @@ class TreeWalker():
         fileEntryDict = self.__createFileEntryDict(currentDirEntryInstance)
         filesList.append(fileEntryDict)
     return filesList
-  
+
   def __createFileEntryDict(self, currentDirEntry):
     fileEntryStat = currentDirEntry.stat()
     fesAtime = fileEntryStat.st_atime
