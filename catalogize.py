@@ -18,3 +18,4 @@ if __name__ == "__main__":
   else:
     wdv.printErrorList()
   dbmsConn = databaseConnection.DatabaseConnection(cfgr.getDBMSConfig())
+  dbmsConn.persist(twa.getFilesList())
