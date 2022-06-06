@@ -6,6 +6,8 @@ class TreeWalker():
   def __init__(self, workDir):
     self.__filesList = []
     self.__workDir = workDir
+    self.__skippedFiles = []
+    self.__skippedDirs = []
 
   def doWalk(self):
     self.__filesList = self.__walkDir(self.__workDir)
@@ -20,11 +22,15 @@ class TreeWalker():
         continue
       if currentDirEntryInstance.is_dir():
         if not os.access(currentDirEntryInstance.path, os.X_OK):
+          self.__skippedDirs.append(currentDirEntryInstance.path)
           continue
         if os.path.ismount(currentDirEntryInstance.path):
           continue
         filesList.extend(self.__walkDir(currentDirEntryInstance.path))
       if currentDirEntryInstance.is_file():
+        if not os.access(currentDirEntryInstance.path, os.R_OK):
+          self.__skippedFiles.append(currentDirEntryInstance.path)
+          continue
         fileEntryDict = self.__createFileEntryDict(currentDirEntryInstance)
         filesList.append(fileEntryDict)
     return filesList
