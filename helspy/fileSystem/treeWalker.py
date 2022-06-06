@@ -20,6 +20,8 @@ class TreeWalker():
       if currentDirEntryInstance.is_symlink():
         continue
       if currentDirEntryInstance.is_dir():
+        if os.path.ismount(currentDirEntryInstance.path):
+          continue
         filesList.extend(self.__walkDir(currentDirEntryInstance.path))
       if currentDirEntryInstance.is_file():
         fileEntryDict = self.__createFileEntryDict(currentDirEntryInstance)
