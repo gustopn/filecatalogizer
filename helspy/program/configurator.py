@@ -60,3 +60,7 @@ class Configurator():
 
     self.__config = configDict
     return True
+
+  def getDBMSConfig(self):
+    return self.__config["DBMS"]
+

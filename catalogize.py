@@ -4,6 +4,7 @@ from helspy.program import argumentsParser
 from helspy.program import workDirVerifier
 from helspy.program import configurator
 from helspy.fileSystem import treeWalker
+from helspy.database import databaseConnection
 
 if __name__ == "__main__":
   ap = argumentsParser.ArgumentsParser()
@@ -16,3 +17,4 @@ if __name__ == "__main__":
     print(len(twa.getFilesList()))
   else:
     wdv.printErrorList()
+  dbmsConn = databaseConnection.DatabaseConnection(cfgr.getDBMSConfig())
